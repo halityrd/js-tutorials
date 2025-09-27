@@ -1,0 +1,3 @@
+(Chrome) Console Javascript ---> Shift + Enter bir alt satıra geçer 
+Sources -> Filesystem -> Snippets -> New Snippets ---> Yeni js dosyası oluşturur, ya da index.js kullanılır.
+prompt() ---> Kullanıcıdan input almak için kullanılır.
