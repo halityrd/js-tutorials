@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>JS DOM Tamamlanan Görevlerin İşaretlenmesi</title>
+    <style>
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .task label.checked {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Todo App
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="input-group">
+                                <input type="text" id="txtTaskName" class="form-control">
+                                <button type="submit" class="btn btn-primary" id="btnAddNewTask">Ekle</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <button id="btnClear" class="btn btn-danger btn-sm float-end">Temizle</button>
+                    </div>
+                    <ul id="task-list" class="list-group list-group-flush">
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script>
+       
+        "use strict";
+        
+        // gorevListesi veri nesnesine yeni durum özellikleri ekliyoruz.
+        let gorevListesi = [
+            {"id" : 1, "gorevAdi" : "Görev 1", "durum": "completed"},
+            {"id" : 2, "gorevAdi" : "Görev 2", "durum": "pending"},
+            {"id" : 3, "gorevAdi" : "Görev 3", "durum": "completed"},
+            {"id" : 4, "gorevAdi" : "Görev 4", "durum": "pending"},
+        ];
+
+        let editId;
+        let isEditTask = false;
+
+        const taskInput = document.querySelector("#txtTaskName");
+        const btnClear = document.querySelector("#btnClear");
+
+        displayTasks();
+
+        function displayTasks() {
+
+            let ul = document.getElementById("task-list");
+    
+            ul.innerHTML = "";
+
+            if(gorevListesi.length == 0) {
+                ul.innerHTML = "<p class = 'p-3 m-0'>Görev listeniz boş.</p>"
+            } else {
+                for(let gorev of gorevListesi) {
+   
+                    // eğer gorevListesi içerisindeki durum completed ise input ve labale checked olsun değilse herhangi bir değişiklik olmasın
+                    // ve bu da completed adında değişkene atıyoruz.
+                    // ternary operator
+                    let completed = gorev.durum == "completed" ? "checked" : "";
+
+                    // burada da input ve label classlarına completed değişkenini atayıp dinamik hale getiriyoruz.
+                    // ayrıca kullanıcı etkileşimi için yani kullanıcı checkboxa tıkladığında üzeri çizilmesi için inputa onclik ile updateStatus eventini ekliyoruz ve içerisine method checkboxa göndermemizi istediği için this ekliyoruz. yani metodun checkboxa ulaşması için ekliyoruz.
+                    let li = `
+                        <li class="task list-group-item">
+                            <div class="form-check">
+                                <input type="checkbox" onclick="updateStatus(this)" id="${gorev.id}" class="form-check-input" ${completed}>
+                                <label for="${gorev.id}" class="form-check-label ${completed}">${gorev.gorevAdi}</label>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a onclick="deleteTask(${gorev.id})" class="dropdown-item" href="#"><i class="fa-solid fa-trash-can"></i> Sil</a></li>
+                                    <li><a onclick='editTask(${gorev.id}, "${gorev.gorevAdi}")' class="dropdown-item" href="#"><i class="fa-solid fa-pen"></i> Düzenle</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    `;
+                    
+                    ul.insertAdjacentHTML("beforeend", li);
+                }
+            }
+        
+        }
+
+
+        document.querySelector("#btnAddNewTask").addEventListener("click", newTask);
+        document.querySelector("#btnAddNewTask").addEventListener("keypress", function() {
+            if(event.key == "Enter") {
+                document.getElementById("#btnAddNewTask").click();
+            }
+        });
+
+        function newTask(event) {
+
+            if(taskInput.value == "") {
+                alert("görev girmelisiniz")
+            } else {
+                if(!isEditTask) {
+                    // ekleme
+                    gorevListesi.push({"id" : gorevListesi.length + 1, "gorevAdi" : taskInput.value}); 
+                } else {
+                    // guüncelleme
+                    for(let gorev of gorevListesi) {
+                        if(gorev.id == editId) {
+                            gorev.gorevAdi = taskInput.value;
+                        }
+                        // ekleme işleminden çıkıyouruz.
+                        isEditTask = false;
+                    }
+                }
+                
+                taskInput.value = "";
+                displayTasks();
+            }
+                      
+            event.preventDefault();
+        }
+
+        function deleteTask(id) {
+
+            let deleteId;
+
+            for(let index in gorevListesi) {
+                if(gorevListesi[index].id == id) {
+                    deleteId = index;
+                }
+            }
+
+            gorevListesi.splice(deleteId, 1);
+            displayTasks();
+        }
+
+        function editTask(taskId, taskName) {
+            editId = taskId;
+            isEditTask = true;
+            taskInput.value = taskName;
+            taskInput.focus();
+            taskInput.classList.add("active");
+
+            console.log("edit id:", editId);
+            console.log("edit mode:", isEditTask);
+        }
+
+        // en üste seçmiş olduğumuz (referansını aldığımız) btnClear butonuna click eventi ekliyoruz.
+        btnClear.addEventListener("click", function() {
+            // daha sonra gorevlistesi içerisindeki gorevleri 0.indexten başlayarak uzunluğu kadar siliyoruz.
+            gorevListesi.splice(0, gorevListesi.length);
+            // sildikten sonra tekrar listelemek için displayTasks() fonksiyonunu çağırıyoruz.
+            displayTasks();
+        })
+
+        // inputa eklediğimiz updateStatus eventini burada tanımlıyoruz ve parametre olarak selectedTask gönderiyoruz.
+        function updateStatus(selectedTask) {
+            // selectedTask input elementi olduğu için labela bu şekilde ulaşabiliriz.
+            // console.log(selectedTask.parentElement.lastElementChild);
+            // ya da daha kısa yolu labelin imputun kardeş elementi olduğu için bu şekilde ulaşılabilir.
+            let label = selectedTask.nextElementSibling;
+            let durum;
+
+            // eğer seçilen görev chek durumundaysa labela checked classını ekle ve durumu completed yap, değilse labeldan checked classını kaldır ve durmunu pending yap.
+            if(selectedTask.checked) {
+                label.classList.add("checked");
+                // gorevListesi veri nesnesi durumu özelliği
+                durum = "completed";
+            } else {
+                label.classList.remove("checked");
+                   // gorevListesi veri listesi durum özelliği
+                durum = "pending";
+            }
+
+            // gorevListesi veri nesnesini tek tek dolaş eğer gelen görevin idsi seçilen görevin idsine eşitse o görevin durum bilgisini güncelle.
+            for(let gorev of gorevListesi) {
+                if(gorev.id == selectedTask.id) {
+                    gorev.durum = durum;
+                }
+            }
+            // istersek de gorevListesini consola yazdırım durum bilgisi değişimi görebiliriz.
+            console.log(gorevListesi);
+        }
+
+
+    </script>
+</body>
+</html>

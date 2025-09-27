@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spread Operator</title>
+</head>
+<body>
+    
+
+    <script>
+       
+        //    const msj = ["benim", "adım", "sadık", "turan"];
+
+        //     //    let sonuc = "";
+        //     //    for(let x of msj) {
+        //     //         sonuc += x + " ";
+        //     //    }
+
+        //     //    console.log(sonuc);
+
+        //     // yukarıda msj dizisinin elemanalarını for döngüsü ile ekrana yazdırma işlemini bu şekilde tek bir kod ile yapıyoruz.
+        //     // buna spread operatör denir.
+        //     console.log(...msj);
+
+        //     const dizi1 = ["bir", "iki"];
+        //     const dizi2 = ["üç", "dört"];
+
+        //     // bu şekilde yazdığımız dizi3 içerisinde dizi1 ve dizi2 dizi3'ün elemanı şeklinde 2 elemanlı görünecektir.
+        //     // const dizi3 = [dizi1, dizi2];
+        //     // fakat spread operator ile yazarsak tüm elemanları birleştirecek dizi 3'ü 4 elemanlı yapacaktır.
+        //     // const dizi3 = [...dizi1, ...dizi2];
+        //     // bu şekilde de birleştirilecek diziye yeni elemanlar ekleyebiliriz.
+        //     const dizi3 = [...dizi1, ...dizi2, "beş", "altı"];
+
+        //     console.log(dizi3);
+
+
+        // spread operatörü en çok dizileri kopyalarken işimize yarar.
+
+        // burada sayilar1 dizisini referans olarak sayilar2 dizisinin içerisine attık 
+        const sayilar1 = [1,2,3];
+        // const sayilar2 = sayilar1; // referans kopyalama
+
+        // burada sayılar1 dizisinin 0. indexini eğer 10 yaparsak sayilar2 dizisininde 0. indexteki elemanı 10 olur.
+        // ya da sayilar2'nin 0. indexini 10 yaparsak sayilar1'inde 10 olur.
+        // bunun sebebi sayılar1 dizisini sayilar2'nin içerisine atttığımızda bellekte aynı adrese kopyalanmalıdır.
+        // sayilar1[0] = 10;
+        // sayilar2[0] = 10;
+
+        // fakat bunu spread operatörle yaparsak sayilar2 nin 0. indexini 10 yaparsak bu sayılar1 dizisini etkilemeyecektir.
+        // çünkü bellekte aynı yere kopyalanmaz ikisi de farklı adreslere kopyalanır.
+        const sayilar2 = [...sayilar1]; // value copy
+
+        sayilar2[0] = 10;
+
+        console.log(sayilar1, sayilar2);
+
+        // nesne kopyalama
+        // const user = {
+        //     username: "sadikturan",
+        //     email: "info@gmaiil.com"
+        // }
+
+        // const address = {
+        //     city: "kocaeli"
+        // }
+
+        // eğer ki aynı bilgilerden ikisinde de var ise address nesnesi daha sonra geldiği için usarname propertysi üstteki user nesnesinin usarname propertysisni ezer.
+        const user = {
+            username: "sadikturan",
+            email: "info@gmaiil.com"
+        }
+
+        const address = {
+            username: "abc",
+            city: "kocaeli"
+        }
+
+
+        console.log({...user, ...address});
+
+        // spread operatör fonksiyonlarda kullanıldığında buna rest parameters denir.
+        // örneğin değişken sayıda parametre alan parametre olarak verilen sayıları toplayan uygulama
+        function toplam(...args) {
+            let sonuc = 0;
+
+            for (let sayi of args) {
+                sonuc += sayi;
+            }
+            return sonuc;
+        }
+
+        console.log(toplam(1,3,5));
+        console.log(toplam(1,3,5,10));
+
+
+        // burda da isim, soyad parametlerinin yanında adres parametresi değişken sayıda parametre alıyor.
+        function bilgileriGoster(isim, soyad, ...adres) {
+            console.log(isim, soyad, adres);
+        }
+
+        bilgileriGoster("ali", "turan", "istanbul", "kadıköy");
+
+    </script>
+</body>
+</html>

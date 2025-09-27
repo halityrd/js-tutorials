@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <title>JS DOM Event Listener</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Todo App
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="input-group">
+                                <input type="text" id="txtTaskName" class="form-control">
+                                <button type="submit" class="btn btn-primary" id="btnAddNewTask">Ekle</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <dic class="card-header">
+                        <button id="btnClear" class="btn btn-danger btn-sm float-end">Temizle</button>
+                    </dic>
+                    <ul id="task-list" class="list-group list-group-flush">
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+    <script>
+       
+        "use strict";
+
+        let sonuc;
+
+        
+        let gorevListesi = [
+            {"id" : 1, "gorevAdi" : "Görev 1"},
+            {"id" : 2, "gorevAdi" : "Görev 2"},
+            {"id" : 3, "gorevAdi" : "Görev 3"},
+            {"id" : 4, "gorevAdi" : "Görev 4"},
+        ];
+
+        let ul = document.getElementById("task-list");
+
+     
+        for(let gorev of gorevListesi) {
+   
+            let li = `
+                <li class="task list-group-item">
+                    <div class="form-check">
+                        <input type="checkbox" id="${gorev.id}" class="form-check-input">
+                        <label for="${gorev.id}" class="form-check-label">${gorev.gorevAdi}</label>
+                    </div>
+                </li>
+            `;
+            
+            ul.insertAdjacentHTML("beforeend", li);
+        }
+
+
+        // let btnEkle = document.querySelector("#btnAddNewTask");
+
+        // eventListener içinde yazılan değerlerden ilki ilişkilendirilen event, ikincisi ise eventi dinleyen bir fonksiyondur.
+        // *** html içerisinde tanımlanan buttonun typeine submit dediğimiz için sayfa hemen refresh edilir.
+        // fakat type = button deseydik refresh edilmeyecekti.
+        // biz backende işmice yarayacak diye submit diyoruz.
+        // yani sayfanın yenilenmemesi için ilgili elementin normal davranışı kapat demek için fonkiyona verilen event parametresine preventDefault() metodunu ekliyoruz.
+        // event parametresini de metot eklemek için ekliyoruz.
+        // btnEkle.addEventListener("click", function(event) {
+        //     console.log("click event");
+
+        //     event.preventDefault();
+        // });
+
+        // tekrar bir değişken tanımlmadan yazmak için (yukarıdaki btnEkle gibi) alttaki şekilde de yazılabilir.
+        // document.querySelector("#btnAddNewTask").addEventListener("click", function(event) {
+        //     console.log("click event : new task");
+
+        //     event.preventDefault();
+        // });
+
+        // bir listener da temizlce butonu için ekliyoruz.
+        // document.querySelector("#btnClear").addEventListener("click", function(event) {
+        //     console.log("click event : clear");
+
+        //     event.preventDefault();
+        // });
+
+        
+        // *** iki buttonda da aynı fonksiyonu kullandığımız için fonkisyonu dışarı alıp her bir buttonun eventinde çağırabiliriz.
+        // *** bunun için newTask adlı bir fonksiyon oluşturuyoruz.
+        // *** fakat fonksiyonu çağırırken () kullanmıyoruz sadece fonksiyonun ismini yazıyoruz.
+
+        // document.querySelector("#btnAddNewTask").addEventListener("click", newTask);
+
+        // document.querySelector("#btnClear").addEventListener("click", newTask);
+
+
+        // function newTask(event) {
+        //     console.log("click event : new task");
+
+        //     event.preventDefault();
+        // }
+
+        // btnAddNewTask buttonunda dışarda tanımlanmış fonksiyon, btnClear buttonun da ise içinde fonksiyon yazılmış şekilde de yazılabilir.
+        // document.querySelector("#btnClear").addEventListener("click", function(event) {
+        //     console.log("click event : clear");
+
+        //     event.preventDefault();
+        // });
+
+        document.querySelector("#btnAddNewTask").addEventListener("click", newTask);
+
+        function newTask(event) {
+            // console.log("click event : new task");
+            // buşekilde eventi konsola yazdırdığımızda eventin tüm propertylerini görebiliriz.
+            // console.log(event);
+            // eventin propertylerinden target eventini yazdırdığımızda hangi butonu tıklarsak o butonu conola yazdıracaktır.
+            console.log(event.target);
+
+            // bu şekilde ulaştığımız butona yeni bir class ataması yapabiliriz.
+            // *** burda önemli olan buttona ulaşıyor olmamız.
+            event.target.classList.add("btn-lg");
+
+            event.preventDefault();
+        }
+
+
+
+    </script>
+</body>
+</html>

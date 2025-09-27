@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array ile Çalışma</title>
+</head>
+<body>
+    
+
+    <script>
+       
+       const sayilar = [1,5,7,3,2,67];
+
+        // sayılar dizisinin tek elemanlarını for döngüsü ile ekrana yazdırma
+        //    for(let sayi of sayilar) {
+        //         if(sayi%2 == 1) {
+        //             console.log(sayi);
+        //         }
+        //    }
+
+        // sayilar dizisinin tek saılarını bir diziye ekleme
+        // const tekSayilar = [];
+        // for(let sayi of sayilar) {
+        //         if(sayi%2 == 1) {
+        //             tekSayilar.push(sayi);
+        //         }
+        // }
+
+        // console.log(tekSayilar);
+
+        // yukarıdaki tek sayı ekleme işlemeni arrow function ve filter metodu ile daha kısa yoldan yapımı
+        // const tekSayiKontrol = (sayi) => sayi % 2 == 1;
+
+        // filter metodu verilen kritere göre bir döngü gibi her bir elemanı dolaşarak geriye bir dizi dönderecek şekilde filtreleme yapar.
+        // bunu yaparken de orjinal diziye dokunmadan yeni bir dizi oluşturur.
+        // () içine fonkisiyonu yazarken () işraetleri kullanılmaz çünkü fonkisyonmu burada çalıştırmıyoruz sadece bellekteki adresini gnderiyoruz.
+        // const tekSayilar = sayilar.filter(tekSayiKontrol);
+
+        // daha kısa yazmak tekSayiKontrol değişkeni içerisindeki fonkisyonu bir değişken atıp referensı almadan da direk filter içinde kullanabiliriz.
+        // const tekSayiKontrol = (sayi) => sayi % 2 == 1;
+
+        // const tekSayilar = sayilar.filter((sayi) => sayi % 2 == 1);
+        
+        // console.log(tekSayilar);
+
+
+        const tekSayiKontrol = (sayi) => sayi % 2 == 1;
+
+        // map() metodu ise yine döngü gibi her elemanı dolaşıp verilen kritere göre geriye boolean değer döndürür.
+        // yani verilen kriteri her bir eleman için işletir.
+        const tekSayilar = sayilar.map((sayi) => sayi % 2 == 1);
+
+        console.log(tekSayilar);
+
+
+        const urunler = [
+            {urunAdi: "iphone 11", fiyat: 12000},
+            {urunAdi: "iphone 12", fiyat: 15000},
+            {urunAdi: "iphone 13", fiyat: 18000},
+            {urunAdi: "iphone 13 Pro", fiyat: 22000}
+        ];
+        
+        // urunler listesi içerisindeki her bir ürün urune kopyalanır ve geriye de urun değeri sonuc ismindeki listeye tekrar aktarılır. yani urun dizisinin listelenmesi ile aynı şey
+        // const sonuc = urunler.map(urun => urun);
+        // fakat map() de farklı olan şu istersek bu şekilde tüm urunlerin urun adlarını bir liste şeklinde alabiliriz.
+        // yani gönderilen bir parametreden nesnenin alt özelliklerini map() ile alabilir, bir kritere göre filtrelenmesini de filter() ile yapabiliriz.
+        // const sonuc = urunler.map(urun => urun.urunAdi);
+
+        // eğer urunler listesinde urunlerin urun fiyatına bir kriter ekleyip filtrememek istersek de filter() metodunu kullanıyoruz.
+        // yani urun fiyatı 15000 den büyük ürünleri urun parametresine kopyala ve filtrelenenUrunler değişkenine aktar.
+        // bu yazım tarzı diğer programlama dillerinde lambda expresion olarak adlandırılır.
+        // const filtrelenenUrunler = urunler.filter(urun => urun.fiyat > 15000);
+        // filter ile filtrelenen ürünler geriye bir dizi olarak döneceği için bu şekilde map() ile 1500 den büyük olan ürünlerin sadece urun adlarını alabiliriz.
+        // sonuc = filtrelenenUrunler.map(urun => urun.urunAdi);
+
+        // ya da 2 satır olarak yazacağımıza bunu tek satırda da yazabiliriz.
+        // const sonuc = urunler.filter(urun => urun.fiyat > 15000).map(urun => urun.urunAdi);
+
+        // filter metodu çoğul seçimler için geriye bir dizi döndürür.
+        // eğer tekil olarak bir değer almak istiyorsak find() metodunu kullanırız. find() bulduğu ilk değeri geriye döndürür.
+        // const sonuc = urunler.find(urun => urun.fiyat > 12000);
+        // tekil değerin de indexi ile ilgileniyorsak findIndex() metodunu kullanırız.
+
+        const sonuc = urunler.findIndex(urun => urun.fiyat > 12000);
+
+
+
+
+        console.log(sonuc);
+
+
+    </script>
+</body>
+</html>

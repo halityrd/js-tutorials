@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DOM Çoklu Element Seçimi-Multiple Elements</title>
+</head>
+<body>
+    <div class="card-header">
+        <h3 class="cart-title h1" id="title">Todo App 2</h3>
+    </div>
+    <ul id="task-list">
+        <li class="task">Görev 1</li>
+        <li class="task">Görev 2</li>
+        <li class="task">Görev 3</li>
+    </ul>
+    <ul id="task-list2">
+        <li class="task">Görev 1</li>
+        <li class="task">Görev 2</li>
+        <li class="task">Görev 3</li>
+    </ul>
+
+    <script>
+        
+        let sonuc;
+
+        // className tüm task classına sahip elemanlara ulaşıp bir dizi döndereceği için dizi elemanlarına bu şekilde ulaşabiliriz.
+        // className de querySelecktor da olduğu gibi classın başına . koymamıza gerek yoktur.
+        sonuc = document.getElementsByClassName("task")[0];
+        sonuc = document.getElementsByClassName("task")[1];
+
+        // tasklist = document.getElementsByClassName("task");
+
+        // TagName sayfadaki tüm li elemanlarına ulaşacağı için bir kapsayıcı belirterek sadece istediğimiz ul nin li elamanlarına ulaşabiliriz.
+        // bu şekilde de for döngüsü istediğimiz ul nin li elemanlarına style verecektir.
+        // yani her zaman document üstünden gitmeye gerek yok il seçip sonra işlem yapabiliriz.
+        // ul = document.getElementById("task-list");
+        // tasklist = ul.getElementsByTagName("li");
+
+        // ya da daha kolayı querySelectorAll ile kapsam belirtip istediğimiz ul nin altındaki li elemanlarını seçip ondan sonra for ile döndürüp işlem yapabiliriz.
+        tasklist = document.querySelectorAll("#task-list li");
+
+        // dizi elemanlarına for döngüsü ile ulaşabiliriz.
+        // for(let i=0; i<tasklist.length; i++) {
+        //     console.log(tasklist[i]);
+        // }
+
+        // ya da bu şekilde of operatorü ile kısa for yazımı da yapabiliriz.
+        for (task of tasklist) {
+            // ulaşdığımız elemanlara style propertysi ile style ekleyebiliriz.
+            task.style.color = 'red';
+            task.style.fontSize = "20px";
+            // task.innerText = "Item";
+        }
+
+      
+
+        // console.log(sonuc);
+    </script>
+</body>
+</html>

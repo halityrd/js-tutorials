@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sets</title>
+</head>
+<body>
+    
+
+    <script>
+        // Set nesnesi dizi yapısına çok benzer fakat bazı farklılıkları vardır.
+        // const sayilar = new Set([1,2,3]);
+        const sayilar = new Set();
+
+        // add() metoduyla sayılar nesnesine veri aktarabiliriz.
+        sayilar.add(1);
+        sayilar.add(2);
+        sayilar.add(3);
+        // fakat bir tane daha aynı veriden eklersek bunu eklemeyecek dizi içerisinde sadece bir tanesi yer alacaktır
+        sayilar.add(3);
+        sayilar.add("4");
+
+        // sayılar nesnesini bu şekilde spread operatörü ile diziye çevirebiliriz.
+        // const dizi = [...sayilar];
+
+        // console.log(dizi);
+
+        // delete() metodu verilen value değerine sahip elemanın silimesini sağlar.
+        sayilar.delete(1);
+
+        // has() ise verilen value değerinin nesne içerisinde olup olmadığını sorgulayarak boolean değer döndürür.
+        console.log(sayilar.has(2));
+
+        // clear() ise nesne içerisindeki tüm elemanların silinmesini sağlar.
+        // sayilar.clear();
+
+        // values() bilgisi bize Iterator bilgisi döndürür. Iterator olması demek elemanlar üzerinde for döngüsü ile dolaşabiliriz demek.
+        for(let x of sayilar.values()) {
+            console.log(x);
+        }
+
+        // values() demeden de for döngüsü ile aynı işlemi yapabiliriz. 
+        for(let x of sayilar) {
+            console.log(x);
+        }
+
+
+
+        console.log(sayilar);
+
+    </script>
+</body>
+</html>

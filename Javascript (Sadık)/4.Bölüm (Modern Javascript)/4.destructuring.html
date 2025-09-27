@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destructuring</title>
+</head>
+<body>
+    
+
+    <script>
+       
+       // array destructuring
+       let name = ["sadık","turan"];
+
+       // bu şekilde yazıp dizi elemanlarını bir değişkene aktrabiliriz.
+        //    let firstname = name[0];
+        //    let lastName = name[1];
+
+        // ya da daha kolay bir şekilde desturturing ile iki elamanlı bir dizi tanımlayıp elemanlarını değişken olarak tanımlar ve name dizine eşitlersek otomatik olarak 1. eleman 1. değişkene 2. eleman 2. değişken aktarılacaktır.
+        // let [firstName, lastName] = name;
+        // ya da bu şekilde direk bir string ifadeye eşitleyip bir dizi olduğu için split metoduyla boşluklardan ayırıp değişkenlere aktarabiliriz.
+        // yani distructuring dizi elemanlarını tanımlanan değişkenlere otomatik olarak aktarılması sağlar.
+        let [firstName, lastName] = "Sadık Turan".split(" ");
+
+       console.log(firstName, lastName);
+
+
+        //    let user = ["sadık", "turan", "kocaeli", "izmit"];
+
+        //    let [firstname, lastname, city, town] = user;
+
+        //    console.log(firstname, lastname, city, town);
+
+        
+        // let user = ["sadık", "turan", "kocaeli", "izmit"];
+
+        // üssteki örnekte kocaeli elemanı yerine "," ler aracılığı ile bir yer tutucu koayarak istemediğimiz elemanı da almamış oluruz.
+        // let [firstname, lastname, , town] = user;
+
+        // console.log(firstname, lastname, town);
+
+        let user = ["sadık", "turan", "kocaeli", "izmit", "41000"];
+
+        // bu şekilde de son elemanı rest parametresi olarak spread operatör şeklinde tanmladığımızda user dizisinin son üç elemanı addres şeklinde bir dizi olarak karşımıza gelir.
+        let [firstname, lastname, ...address] = user;
+
+        console.log(firstname, lastname, address);
+
+
+        // object destructuring
+        // let urun = {
+        //     marka: "Apple",
+        //     model: "IPhone 13",
+        //     fiyat: 20000,
+        //     satisDurumu: true
+        // }
+
+        // // bu şekilde de nesne özlelliklerini bir değişken içerisine atayabiliriz.
+        // let {marka, model, fiyat, satisDurumu} = urun;
+
+        // console.log(marka, model, fiyat, satisDurumu);
+
+        
+        // let urun = {
+        //     marka: "Apple",
+        //     model: "IPhone 13"
+        // }
+
+        // // ya da bu şekild nesne içerisinde olmayan özellikleri değişken tanımlarken ekleyip default değer aktarabiliriz.
+        // let{marka, model, fiyat = 0, satisDurumu = false} = urun;
+
+        // console.log(marka, model, fiyat, satisDurumu);
+        
+        // // fonskiyonda ise şöyle kullanabiliriz
+        // function urunGoster(marka, model, fiyat = 0, satisDurumu = false) {
+        //     console.log(marka, model, fiyat, satisDurumu);
+        // }
+
+        // // fonksiyon parametrelerinde fiyat ve satışDurumu'na defaul değerler atadığımız için illa onları parametre olarak göndermemiz gerekmez, default değerler ekranda yazacaktır.
+        // urunGoster("apple", "ipohe12");
+
+        // // fakat bu şekilde 3. parametre olan fiyat bilgisini eklemeden satısDurumu'nu true olarak gönderirsek hatalı bir kullanım olacaktır.
+        // // çünkü 3. parametre fiyat bilgisi değerine true yazar.
+        // urunGoster("apple", "iphone12", true);
+
+        // fakat bu şekilde kullanırsak obje için parametre sıralı gerekli değildir.
+         let urun = {
+            marka: "Apple",
+            model: "IPhone 13",
+            // hatta bu şekilde de fiyat propertysini ekleyip farklı değer ekleyebiliriz.
+            fiyat: 10000
+        }
+
+        function urunGoster(obj) {
+            let{marka, model, fiyat = 0, satisDurumu = false} = obj;
+
+            console.log(marka, model, fiyat, satisDurumu);
+        }
+
+        urunGoster(urun);
+
+
+
+
+    </script>
+</body>
+</html>

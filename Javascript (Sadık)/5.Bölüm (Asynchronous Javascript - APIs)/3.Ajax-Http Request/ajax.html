@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax - Http Request</title>
+</head>
+<body>
+    
+   <!-- xml, json -->
+
+    <script>
+        const request = new XMLHttpRequest();
+
+        request.open('GET', 'https://restcountries.com/v3.1/name/turkey');
+        request.send();
+
+        // async
+
+        request.addEventListener('load', function() {
+            const data = JSON.parse(this.responseText);
+            console.log(typeof data);
+            console.log(data[0]);
+            // string to json
+        });
+
+    </script>
+</body>
+</html>
